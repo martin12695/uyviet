@@ -10,6 +10,9 @@
     <script src="/js/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="/js/bootstrap-select.js"></script>
+    <style type="text/css">
+        .style1 {background-color:#ffffff;font-weight:bold;border:2px #006699 solid;}
+    </style>
 </head>
 <body>
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -91,11 +94,33 @@
 <div id="map" class="col-md-9"></div>
 <script>
     function initMap() {
+
         var markers,markerCluster;
         var marker = [];
         var locations = [
             {lat: -31.563910, lng: 147.154312},
-            {lat: 10.44784908000000, lng: 105.23405870000000},
+            {lat: -33.718234, lng: 150.363181},
+            {lat: -33.727111, lng: 150.371124},
+            {lat: -33.848588, lng: 151.209834},
+            {lat: -33.851702, lng: 151.216968},
+            {lat: -34.671264, lng: 150.863657},
+            {lat: -35.304724, lng: 148.662905},
+            {lat: -36.817685, lng: 175.699196},
+            {lat: -36.828611, lng: 175.790222},
+            {lat: -37.750000, lng: 145.116667},
+            {lat: -37.759859, lng: 145.128708},
+            {lat: -37.765015, lng: 145.133858},
+            {lat: -37.770104, lng: 145.143299},
+            {lat: -37.773700, lng: 145.145187},
+            {lat: -37.774785, lng: 145.137978},
+            {lat: -37.819616, lng: 144.968119},
+            {lat: -38.330766, lng: 144.695692},
+            {lat: -39.927193, lng: 175.053218},
+            {lat: -41.330162, lng: 174.865694},
+            {lat: -42.734358, lng: 147.439506},
+            {lat: -42.734358, lng: 147.501315},
+            {lat: -42.735258, lng: 147.438000},
+            {lat: -43.999792, lng: 170.463352}
         ];
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 3,
@@ -110,6 +135,7 @@
         markers = locations.map(function(location, i) {
             return marker[i] = new google.maps.Marker({
                 position: location,
+                title: 'Courtyard by Marriott',
                 //label: labels[i % labels.length]
             });
         });
@@ -117,38 +143,29 @@
         // Add a marker clusterer to manage the markers.
         markerCluster = new MarkerClusterer(map, markers,
                 {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-
         $("#button").click(function (){
-            for (var i = 0; i < marker.length; i++) {
-                marker[i].setMap(null);
-            }
+            $.ajax({
+                type: "GET",
+                url: '/location',
+                data: '1',
+                success: function(data) {
+                    locations = data;
+                },
+            });
             markerCluster.clearMarkers();
-            locations = [
-                {lat: 10.44784908000000, lng: 105.23405870000000},
-
-            ]
-            markers = locations.map(function(location, i) {
+            var markers_temp = [];
+            locations.map(function(location, i) {
                 marker[i] = new google.maps.Marker({
                     position: location,
+                    title: 'Courtyard by Marriott',
+                    pixelOffset: new google.maps.Size(100,140),
                 });
-                marker[i].setMap(map);
+                markers_temp.push(marker[i]);
             });
-            markerCluster = new MarkerClusterer(map, markers,
-                    {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+            markerCluster.addMarkers(markers_temp);
+
         });
     }
-
-
-   /* $.ajax({
-        type: "GET",
-        url: '/location',
-        data: '1',
-        success: function() {
-            alert( "Gọi thành công" );
-
-        },
-    });*/
-
 </script>
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
 </script>

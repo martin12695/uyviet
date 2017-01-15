@@ -32,7 +32,7 @@ class HomeController
 
 
     public function findItem(Request $request) {
-        $location =  DB::select('select location from shop where province_id = 79');
+        $location =  DB::select('select (SUBSTRING(`location` from 1 FOR INSTR (location, \',\') - 1) + 0.0 ) as lat, (SUBSTRING(`location` from INSTR (location, \',\') + 1 for LENGTH (location) - INSTR (location, \',\'))+0.0) as lng from shop where province_id = 89');
         $body = $request->input();
         return \Response::json($location);
     }
