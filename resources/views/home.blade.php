@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <title>Marker Clustering</title>
+    <title>Uy Việt</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/bootstrap-select.css">
@@ -90,17 +90,19 @@
 
 <div id="map" class="col-md-9"></div>
 <script>
-    var markers;
-    var marker = [];
     function initMap() {
-
+        var markers,markerCluster;
+        var marker = [];
+        var locations = [
+            {lat: -31.563910, lng: 147.154312},
+            {lat: 10.44784908000000, lng: 105.23405870000000},
+        ];
         var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 3,
             center: {lat: -28.024, lng: 140.887}
         });
 
-        // Create an array of alphabetical characters used to label the markers.
-
+        // Create an array of alphabetical characters used to label the markers
         // Add some markers to the map.
         // Note: The code uses the JavaScript Array.prototype.map() method to
         // create an array of markers based on a given "locations" array.
@@ -113,20 +115,31 @@
         });
 
         // Add a marker clusterer to manage the markers.
-        var markerCluster = new MarkerClusterer(map, markers,
+        markerCluster = new MarkerClusterer(map, markers,
                 {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-        marker[1].addListener('click', function() {
-            map.setZoom(8);
-            map.setCenter(marker.getPosition());
+
+        $("#button").click(function (){
+            for (var i = 0; i < marker.length; i++) {
+                marker[i].setMap(null);
+            }
+            markerCluster.clearMarkers();
+            locations = [
+                {lat: 10.44784908000000, lng: 105.23405870000000},
+
+            ]
+            markers = locations.map(function(location, i) {
+                marker[i] = new google.maps.Marker({
+                    position: location,
+                });
+                marker[i].setMap(map);
+            });
+            markerCluster = new MarkerClusterer(map, markers,
+                    {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
         });
     }
-    var locations = [
-        {lat: -31.563910, lng: 147.154312},
-        {lat: -33.718234, lng: 150.363181},
 
-    ]
 
-    $.ajax({
+   /* $.ajax({
         type: "GET",
         url: '/location',
         data: '1',
@@ -134,20 +147,8 @@
             alert( "Gọi thành công" );
 
         },
-    });
-    $("#button").click(function (){
-        locations = [
-            {lat: 0, lng: 0},
-            {lat: -37.718234, lng: 150.363181},
+    });*/
 
-        ]
-        var markers = locations.map(function(location, i) {
-            return marker[i] = new google.maps.Marker({
-                position: location,
-                //label: labels[i % labels.length]
-            });
-        });
-    });
 </script>
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
 </script>
