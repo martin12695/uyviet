@@ -32,9 +32,12 @@ class HomeController
 
 
     public function findItem(Request $request) {
-        $location =  DB::select('select (SUBSTRING(`location` from 1 FOR INSTR (location, \',\') - 1) + 0.0 ) as lat, (SUBSTRING(`location` from INSTR (location, \',\') + 1 for LENGTH (location) - INSTR (location, \',\'))+0.0) as lng from shop where province_id = 89');
-        $body = $request->input();
-        return \Response::json($location);
+        $location =  DB::select('select (SUBSTRING(`location` from 1 FOR INSTR (location, \',\') - 1) + 0.0 ) as lat, 
+                                        (SUBSTRING(`location` from INSTR (location, \',\') + 1 for LENGTH (location) - INSTR (location, \',\'))+0.0) 
+                                         as lng from shop where province_id = 89');
+
+        $locationTest = DB::select('select shop.*, icon_url from shop, shop_type where (type_id = shop_type.id) and (shop.province_id = 89) and (shop.district_id = 892)');
+        return \Response::json($locationTest);
     }
 
 }

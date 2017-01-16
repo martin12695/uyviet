@@ -11,10 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 
-Route::get('/index', 'HomeController@initPage');
+Route::get('/', 'HomeController@initPage');
 Route::get('/location', 'HomeController@findItem');
+Route::get('/getIcon', 'HandleIcon@handleIconMap');
+
+
