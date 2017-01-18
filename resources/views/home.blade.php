@@ -162,9 +162,8 @@
                                 </select>
                             </div>
                         </div>
-
                     </div>
-                    <!-- /.box-footer -->
+                    <!-- /.box-footerfdgdfgf -->
                 </form>
             </div>
             <div class="modal-footer">
