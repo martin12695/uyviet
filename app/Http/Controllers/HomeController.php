@@ -45,6 +45,11 @@ class HomeController
         return \Response::json($infoLocation);
     }
 
+    public function getDistrictList(Request $request) {
+        $provinceId = $request->input('provinceId');
+        $listDistrict = DB::select('select id, name from district where province_id = ?',[$provinceId]);
+        return \Response::json($listDistrict);
+    }
 
 
 }

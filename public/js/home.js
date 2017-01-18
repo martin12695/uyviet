@@ -103,3 +103,47 @@ function initMap() {
         });
     });
 }
+
+
+
+function getListDistrict() {
+    $('#district').empty();
+    $.ajax({
+            method: "get",
+            url: '/getdistrict',
+            data: {
+                provinceId : $("select#province").val(),
+            },
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    $('#district').append($('<option>', {
+                        value: data[i].id,
+                        text: data[i].name,
+
+                    }));
+                }
+               $('#district').selectpicker('refresh');
+            }
+        });
+}
+
+function getListWard() {
+    $('#ward').empty();
+    $.ajax({
+        method: "get",
+        url: '/getward',
+        data: {
+            districtId : $("select#province").val(),
+        },
+        success: function (data) {
+            for (var i = 0; i < data.length; i++) {
+                $('#ward').append($('<option>', {
+                    value: data[i].id,
+                    text: data[i].name,
+
+                }));
+            }
+            $('#district').selectpicker('refresh');
+        }
+    });
+}

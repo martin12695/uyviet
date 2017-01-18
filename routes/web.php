@@ -16,5 +16,5 @@
 Route::get('/', 'HomeController@initPage');
 Route::get('/location', 'HomeController@findItem');
 Route::post('/getInfoShop', 'HomeController@getInfoShop');
-
+Route::get('/getdistrict', 'HomeController@getDistrictList');
 

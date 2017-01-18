@@ -23,18 +23,25 @@
             <a class="navbar-brand" href="#">Uy Việt</a>
         </div>
         <ul class="nav navbar-nav">
-                <li class="active">
-                    <select id="province" class="selectpicker" data-live-search="true" data-live-search-style="begins" title="Chọn tỉnh/thành phố">
-                        @foreach($listProvince as $province)
-                        <option value="{{$province->id}}">{{$province->name}}</option>
-                        @endforeach
-                    </select>
-                </li>
-                <li><a href="#">Page 1</a></li>
-                <li><a href="#">Page 2</a></li>
-                <li><a href="#">Page 3</a></li>
-
+            <li class="selectnav">
+                <select id="province" class="selectpicker" data-live-search="true" data-live-search-style="begins" title="Chọn tỉnh/thành phố" onchange="getListDistrict()">
+                    @foreach($listProvince as $province)
+                    <option value="{{$province->id}}">{{$province->name}}</option>
+                    @endforeach
+                </select>
+            </li>
+            <li class="selectnav">
+                <select id='district' name='standard' class='selectpicker' data-live-search="true" data-live-search-style="begins" title="Chọn quận/huyện">
+                    <option value='0'>Tất cả</option>
+                </select>
+            </li>
+            <li class="selectnav">
+                <select id='ward' name='standard' class='selectpicker' title="Chọn phường/xã">
+                    <option value='0'>Tất cả</option>
+                </select>
+            </li>
         </ul>
+
     </div>
 </nav>
 <div class="nav-side-menu col-md-3" style="position: relative;">
