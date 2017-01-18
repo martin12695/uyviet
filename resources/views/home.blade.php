@@ -76,16 +76,18 @@
                 <a href="#"><i class="fa fa-industry fa-lg"></i> Tiềm năng <span class="arrow"></span></a>
             </li>
             <ul class="sub-menu collapse" id="new">
-                @foreach($tiemnang as $level)
-                    <li class="active"><a href="#">{{$level->type}}</a></li>
+                @foreach($tiemnang as $tiemnang)
+                    <li class="active"><a href="#">{{$tiemnang->type}}</a></li>
                 @endforeach
             </ul>
-
-            <li>
-                <a href="#">
-                    <i class="fa fa-industry fa-lg"></i> Quy mô
-                </a>
+            <li data-toggle="collapse" data-target="#quymo" class="collapsed">
+                <a href="#"><i class="fa fa-industry fa-lg"></i> Quy Mô <span class="arrow"></span></a>
             </li>
+            <ul class="sub-menu collapse" id="quymo">
+                @foreach($quymo as $quymo_item)
+                    <li class="active"><a href="#">{{$quymo_item->type}}</a></li>
+                @endforeach
+            </ul>
         </ul>
     </div>
 </div>
@@ -99,7 +101,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Edit Shop</h4>
             </div>
-            <div class="box box-warning">
+            <div class="modal-body">
                 <form action="" class="form-horizontal" method="post">
                     <div class="box-body ">
                         <input type="hidden" name="id">
@@ -140,20 +142,38 @@
                                 <input type="text" class="form-control" id="company_name" value="" readonly required>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="controller-label col-sm-2 text-right">Cấp độ</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" name="level">
+                                    @foreach($levels as $level)
+                                        <option value="{{$level->id}}">{{$level->type}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="controller-label col-sm-2 text-right">Quy Mô</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" name="quymo">
+                                    @foreach($quymo as $quymo_item)
+                                        <option value="{{$quymo_item->id}}">{{$quymo_item->type}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
                     </div>
                     <!-- /.box-footer -->
-                    <div class="box-footer">
-                        <button type="button" class="col-xs-2 btn btn-default pull-right" data-dismiss="modal">Close</button>
-                        <button type="submit" class="col-xs-2 btn btn-primary pull-right">Save</button>
-                    </div>
                 </form>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save</button>
             </div>
         </div>
     </div>
 </div>
-
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAo3ykqb8xloOHX36rgPXSd1zBQilLqy98&callback=initMap"></script>
 </body>

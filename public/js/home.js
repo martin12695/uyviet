@@ -4,6 +4,7 @@
 
 var edit_link = "12";
 var tempIW = null;
+// lấy thông tin khi click vào marker
 function getContent(data) {
     return '<div class="info-box-wrap row">     ' +
         '       <div class="col-sm-4">      ' +
@@ -21,6 +22,7 @@ function getContent(data) {
                             '<a data-toggle="modal" data-target="#modal-edit" class="pull-right" id="edit-shop" onclick="getInfoUpdate('+data.id+')" data="'+ data.id + '"><i class="fa fa-pencil-square-o"></i></a></div>' : '') + '</div>    </div>';
 }
 
+//lấy thông tin khi click vào chỉnh sửa
 function getInfoUpdate(shop_id) {
     $.ajax({
         headers: {
@@ -32,14 +34,17 @@ function getInfoUpdate(shop_id) {
         } ,
         url: '/getInfoShop',
         success: function(data) {
-            console.log(data);
+            $("input[name=full_address]").val(data[0].full_address);
             $("input[name=shop_name]").val(data[0].shop_name);
-
+            $("input[name=namer]").val(data[0].namer);
+            $("input[name=phone]").val(data[0].phone);
+            $("select[name=level]").val(data[0].cap_do_1480213548_id);
+            $("select[name=quymo]").val(data[0].quy_mo1480440358_id);
         },
 
     });
 }
-
+ //tạo map, tạo marker
 function initMap() {
     var markers,markerCluster, marker;
     var markers_temp = [];

@@ -22,11 +22,13 @@ class HomeController
         $listProvince = DB::select('select id,name from province');
         $levels = DB::select('select id,type from shop_cap_do_1480213548');
         $tiemnang = DB::select('select id,type from shop_tiem_nang1480213595');
+        $quymo = DB::select('select id,type from shop_quy_mo1480440358');
         return view('home', [
             'shopType' => $shopType,
             'listProvince' => $listProvince,
             'levels' => $levels,
-            'tiemnang' =>$tiemnang
+            'tiemnang' =>$tiemnang,
+            'quymo' => $quymo,
         ]);
     }
 
@@ -38,10 +40,8 @@ class HomeController
 
     public function getInfoShop(Request $request) {
         $shopId = $request->input('id');
-        $a = 1;
         $infoLocation = DB::select('select shop.*, shop_select_condition.* from shop, shop_select_condition 
                                     where (shop.id = shop_select_condition.shop_id) and  shop.id = ?',[$shopId]);
-
         return \Response::json($infoLocation);
     }
 
