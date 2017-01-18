@@ -3,6 +3,7 @@
 <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Uy Việt</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/home.css">
@@ -91,6 +92,68 @@
 <div id="map" class="col-md-9"></div>
 <script src="/js/home.js"></script>
 <button type="button" id="button">test</button>
+<div class="modal fade" id="modal-edit" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Edit Shop</h4>
+            </div>
+            <div class="box box-warning">
+                <form action="" class="form-horizontal" method="post">
+                    <div class="box-body ">
+                        <input type="hidden" name="id">
+                        <input type="hidden" name="condition_id">
+                        <div class="form-group">
+                            <label class="controller-label col-sm-2 text-right">Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="shop_name" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="controller-label col-sm-2 text-right">Namer</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" name="namer" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="controller-label col-sm-2 text-right">Status</label>
+                            <div class="col-sm-9">
+                                <input type="checkbox" name="status">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="controller-label col-sm-2 text-right">Full Address</label>
+                            <div class="col-sm-9">
+                                <input type="tel" class="form-control" name="full_address" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="controller-label col-sm-2 text-right">Phone</label>
+                            <div class="col-sm-9">
+                                <input type="tel" class="form-control" name="phone" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="controller-label col-sm-2 text-right">Company</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="company_name" value="" readonly required>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-footer -->
+                    <div class="box-footer">
+                        <button type="button" class="col-xs-2 btn btn-default pull-right" data-dismiss="modal">Close</button>
+                        <button type="submit" class="col-xs-2 btn btn-primary pull-right">Save</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAo3ykqb8xloOHX36rgPXSd1zBQilLqy98&callback=initMap"></script>
 </body>

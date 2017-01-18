@@ -5,7 +5,39 @@
 var edit_link = "12";
 var tempIW = null;
 function getContent(data) {
-    return '<div class="info-box-wrap row">     <div class="col-sm-4">      <img src="assets/images/shop.jpg" />        <a class="btn btn-info" id="view-more" data="' + data.shop_id + '">        More</a>    </div>    <div class="info-box-text-wrap col-sm-8">           <h6 class="address">           ' + data.shop_name + '</h6>         <div class="action-btns">           <i class="fa fa-volume-control-phone">           </i>  <strong>  ' + data.namer + ": " + data.phone + '</strong>  <br>           <i class="fa fa-user">           </i>                    <strong>                    ' + data.fullname + '</strong>                    <br>           <i class="fa fa-map-marker">           </i>              <strong>              ' + data.full_address + '</strong>              <br>        </div>        ' + (edit_link != "" ? '<div class="row">   <a target="_blank" class="pull-right" id="edit-shop" data="' + data.shop_id + '"><i class="fa fa-pencil-square-o"></i></a></div>' : '') + '</div>    </div>';
+    return '<div class="info-box-wrap row">     ' +
+        '       <div class="col-sm-4">      ' +
+        '           <img src="assets/images/shop.jpg" />        ' +
+        '           <a class="btn btn-info" id="view-more" data="' + data.shop_id + '">More</a>' +
+        '       </div>    ' +
+        '       <div class="info-box-text-wrap col-sm-8">           ' +
+        '           <h6 class="address">' + data.shop_name + '</h6>         ' +
+        '               <div class="action-btns">           ' +
+        '                   <i class="fa fa-volume-control-phone"></i>  ' +
+        '                   <strong>  ' + data.namer + ": " + data.phone + '</strong> <br><i class="fa fa-user"></i><strong>' + data.fullname + '</strong>                   ' +
+        '                   <br><i class="fa fa-map-marker"></i>' +
+        '                   <strong>' + data.full_address + '</strong><br></div>' +
+                            (edit_link != "" ? '<div class="row">' +
+                            '<a data-toggle="modal" data-target="#modal-edit" class="pull-right" id="edit-shop" onclick="getInfoUpdate('+data.id+')" data="'+ data.id + '"><i class="fa fa-pencil-square-o"></i></a></div>' : '') + '</div>    </div>';
+}
+
+function getInfoUpdate(shop_id) {
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: "POST",
+        data : {
+            id :shop_id,
+        } ,
+        url: '/getInfoShop',
+        success: function(data) {
+            console.log(data);
+            $("input[name=shop_name]").val(data[0].shop_name);
+
+        },
+
+    });
 }
 
 function initMap() {
@@ -54,10 +86,7 @@ function initMap() {
                                 $("#view-more").on("click", function() {
                                     view_more($(this).attr("data"));
                                 });
-                                $("a[id='edit-shop']").on("click", function(){
-                                    var shop_id = $(this).attr("data");
-                                    open_modal(shop_id);
-                                });
+
                             });
                         });
 

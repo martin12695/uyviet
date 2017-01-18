@@ -15,6 +15,6 @@
 
 Route::get('/', 'HomeController@initPage');
 Route::get('/location', 'HomeController@findItem');
-Route::get('/getIcon', 'HandleIcon@handleIconMap');
+Route::post('/getInfoShop', 'HomeController@getInfoShop');
 
 
