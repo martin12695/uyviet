@@ -1,7 +1,7 @@
 <?php
 
 return [
-
+    'table' => 'user',
     /*
     |--------------------------------------------------------------------------
     | Authentication Defaults
@@ -16,6 +16,7 @@ return [
     'defaults' => [
         'guard' => 'web',
         'passwords' => 'users',
+
     ],
 
     /*
@@ -34,6 +35,7 @@ return [
     | Supported: "session", "token"
     |
     */
+
 
     'guards' => [
         'web' => [
@@ -68,6 +70,7 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+            'table' => 'user',
         ],
 
         // 'users' => [

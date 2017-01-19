@@ -40,6 +40,7 @@ function getInfoUpdate(shop_id) {
             $("input[name=phone]").val(data[0].phone);
             $("select[name=level]").val(data[0].cap_do_1480213548_id);
             $("select[name=quymo]").val(data[0].quy_mo1480440358_id);
+            $("input[name=status]").prop('checked', data[0].status);
         },
 
     });
@@ -143,7 +144,7 @@ function getListWard() {
 
                 }));
             }
-            $('#district').selectpicker('refresh');
+            $('#ward').selectpicker('refresh');
         }
     });
 }

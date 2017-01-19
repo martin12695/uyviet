@@ -22,7 +22,8 @@
         <div class="navbar-header">
             <a class="navbar-brand" href="#">Uy Việt</a>
         </div>
-        <ul class="nav navbar-nav">
+        @if(session()->has('userId'))
+        <ul class="nav navbar-nav" style="margin-left: 16%">
             <li class="selectnav">
                 <select id="province" class="selectpicker" data-live-search="true" data-live-search-style="begins" title="Chọn tỉnh/thành phố" onchange="getListDistrict()">
                     @foreach($listProvince as $province)
@@ -31,16 +32,28 @@
                 </select>
             </li>
             <li class="selectnav">
-                <select id='district' name='standard' class='selectpicker' data-live-search="true" data-live-search-style="begins" title="Chọn quận/huyện">
+                <select id='district' name='standard' class='selectpicker' data-live-search="true" data-live-search-style="begins" title="Chọn quận/huyện" onchange="getListWard()">
                     <option value='0'>Tất cả</option>
                 </select>
             </li>
             <li class="selectnav">
-                <select id='ward' name='standard' class='selectpicker' title="Chọn phường/xã">
+                <select id='ward' name='standard' class='selectpicker' title="Chọn phường/xã" >
                     <option value='0'>Tất cả</option>
                 </select>
             </li>
+            <li class="selectnav">
+                <button class="btn btn-info btn-lg" type="button" style="padding: 4px 12px;">
+                    <i class="glyphicon glyphicon-search"></i>
+                </button>
+            </li>
         </ul>
+        <div class="pull-right">
+            <label style="font-weight: bold; margin-top: 12px">Xin chào , {{session('fullname')}}</label>
+            <button class="btn btn-info btn-md" onclick="window.location.href='/logout'">Logout</button>
+        </div>
+        @else
+        <a class="pull-right btn btn-info btn-md selectnav " href="#" data-toggle="modal" data-target="#login-modal">Login</a>
+        @endif
 
     </div>
 </nav>
@@ -101,6 +114,7 @@
 <div id="map" class="col-md-9"></div>
 <script src="/js/home.js"></script>
 <button type="button" id="button">test</button>
+<!-- EDIT INFO MODAL -->
 <div class="modal fade" id="modal-edit" role="dialog">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
@@ -170,13 +184,28 @@
                             </div>
                         </div>
                     </div>
-                    <!-- /.box-footerfdgdfgf -->
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary">Save</button>
             </div>
+        </div>
+    </div>
+</div>
+<!-- END EDIT INFO MODAL -->
+
+<!-- SIGNIN MODAL -->
+<div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="loginmodal-container">
+            <h1>Đăng nhập</h1><br>
+            <form method="post" action="/login">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+                <input type="text" name="user" placeholder="Username">
+                <input type="password" name="pass" placeholder="Password">
+                <input type="submit" name="login" class="login loginmodal-submit" value="Login">
+            </form>
         </div>
     </div>
 </div>
