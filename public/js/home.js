@@ -1,7 +1,9 @@
 /**
  * Created by Martin on 16/01/2017.
  */
-
+var markers,markerCluster, marker;
+var markers_temp = [];
+var map;
 var edit_link = "12";
 var tempIW = null;
 // lấy thông tin khi click vào marker
@@ -47,9 +49,7 @@ function getInfoUpdate(shop_id) {
 }
  //tạo map, tạo marker
 function initMap() {
-    var markers,markerCluster, marker;
-    var markers_temp = [];
-    var map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById('map'), {
         zoom: 6,
         center: {lat: 16.625665, lng: 106.981011}
     });
@@ -57,12 +57,18 @@ function initMap() {
     markerCluster = new MarkerClusterer(map, markers,
         {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
 
-    $("#button").click(function (){
+    $("#search").click(function (){
         markerCluster.clearMarkers();
         markers = [];
         $.ajax({
             type: "GET",
             url: '/location',
+            data: {
+                userId : userId,
+                provinceId : $("select#province").val(),
+                districtId : $("select#district").val(),
+                wardId :  $("select#ward").val()
+            },
             success: function(data) {
                 markers_temp = data;
                 for (var i = 0; i < markers_temp.length; i++) {
@@ -103,9 +109,34 @@ function initMap() {
             },
         });
     });
+
 }
 
+function getFilterType($typeId) {
+    markerCluster.clearMarkers();
+    markers = [];
+    var markerFilter = [];
+    for (var i = 0; i < markers_temp.length; i++) {
+        if (markers_temp[i].type_id == $typeId) {
+            markerFilter.push(markers_temp[i]);
+        }
+    }
+    for (var i = 0; i < markerFilter.length; i++) {
+        marker = new google.maps.Marker({
+            position: new google.maps.LatLng(parseFloat(markers_temp[i].location.split(',')[0]), parseFloat(markers_temp[i].location.split(',')[1])),
+            map: map,
+            title: markers_temp[i].shop_name,
+            data: markers_temp[i],
+            icon: {
+                url: markers_temp[i].icon_url,
+                size: new google.maps.Size(50, 50),
+            },
 
+        });
+        markers.push(marker);
+    }
+    markerCluster.addMarkers(markers);
+}
 
 function getListDistrict() {
     $('#district').empty();
@@ -116,6 +147,11 @@ function getListDistrict() {
                 provinceId : $("select#province").val(),
             },
             success: function (data) {
+                $('#district').append($('<option>', {
+                    value: 0,
+                    text: 'Tất cả',
+
+                }));
                 for (var i = 0; i < data.length; i++) {
                     $('#district').append($('<option>', {
                         value: data[i].id,
@@ -137,6 +173,11 @@ function getListWard() {
             districtId : $("select#province").val(),
         },
         success: function (data) {
+            $('#ward').append($('<option>', {
+                value: 0,
+                text: 'Tất cả',
+
+            }));
             for (var i = 0; i < data.length; i++) {
                 $('#ward').append($('<option>', {
                     value: data[i].id,
@@ -148,3 +189,4 @@ function getListWard() {
         }
     });
 }
+

@@ -22,7 +22,7 @@ class HomeController
 {
 
     public function initPage() {
-        $shopType = DB::select('select type from shop_type where status = 1');
+        $shopType = DB::select('select id,type from shop_type where status = 1');
         $listProvince = DB::select('select id,name from province');
         $levels = DB::select('select id,type from shop_cap_do_1480213548');
         $tiemnang = DB::select('select id,type from shop_tiem_nang1480213595');
@@ -38,8 +38,24 @@ class HomeController
 
 
     public function findItem(Request $request) {
-        $locationTest = DB::select('select shop.*, icon_url from shop, shop_type where (type_id = shop_type.id) and (shop.province_id = 89) and (shop.district_id = 892)');
-        return \Response::json($locationTest);
+        $filter = $request->input();
+        if ($filter['districtId'] =='' || $filter['districtId'] == 0 ){
+            $location = DB::select('select shop.*, icon_url from shop, shop_type where (type_id = shop_type.id) and(user_id = ?) and (shop.province_id = ?)',[$filter['userId'],$filter['provinceId']]);
+        }
+        else{
+            if ($filter['wardId'] == '' || $filter['wardId'] == 0) {
+                $location = DB::select('select shop.*, icon_url from shop, shop_type where (type_id = shop_type.id) and(user_id = ?) 
+                                    and (shop.province_id = ?) and (shop.district_id = ?)',
+                                    [$filter['userId'], $filter['provinceId'], $filter['districtId']]);
+            }
+            else {
+                $location = DB::select('select shop.*, icon_url from shop, shop_type where (type_id = shop_type.id) and(user_id = ?) 
+                                    and (shop.province_id = ?) and (shop.district_id = ?) and (shop.ward_id = ?) ',
+                                    [$filter['userId'], $filter['provinceId'], $filter['districtId'], $filter['wardId']]);
+            }
+        }
+
+        return \Response::json($location);
     }
 
     public function getInfoShop(Request $request) {

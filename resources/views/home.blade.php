@@ -32,7 +32,7 @@
                 </select>
             </li>
             <li class="selectnav">
-                <select id='district' name='standard' class='selectpicker' data-live-search="true" data-live-search-style="begins" title="Chọn quận/huyện" onchange="getListWard()">
+                <select id='district' name='district' class='selectpicker' data-live-search="true" data-live-search-style="begins" title="Chọn quận/huyện" onchange="getListWard()">
                     <option value='0'>Tất cả</option>
                 </select>
             </li>
@@ -42,7 +42,7 @@
                 </select>
             </li>
             <li class="selectnav">
-                <button class="btn btn-info btn-lg" type="button" style="padding: 4px 12px;">
+                <button class="btn btn-info btn-lg" type="button" style="padding: 4px 12px;" id="search">
                     <i class="glyphicon glyphicon-search"></i>
                 </button>
             </li>
@@ -57,7 +57,7 @@
 
     </div>
 </nav>
-<div class="nav-side-menu col-md-3" style="position: relative;">
+<div class="col-md-3 nav-side-menu" style="position: relative;">
     <div class="brand">Tìm kiếm</div>
     <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
     <div class="menu-list">
@@ -77,7 +77,7 @@
             </li>
             <ul class="sub-menu collapse" id="products">
                 @foreach($shopType as $type)
-                <li class="active"><a href="#">{{$type->type}}</a></li>
+                <li class="active"><a href="#" onclick="getFilterType({{$type->id}});">{{$type->type}}</a></li>
                 @endforeach
             </ul>
 
@@ -112,8 +112,10 @@
     </div>
 </div>
 <div id="map" class="col-md-9"></div>
+<script>
+    var userId = {{session('userId')}};
+</script>
 <script src="/js/home.js"></script>
-<button type="button" id="button">test</button>
 <!-- EDIT INFO MODAL -->
 <div class="modal fade" id="modal-edit" role="dialog">
     <div class="modal-dialog modal-md">
