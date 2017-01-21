@@ -6,6 +6,7 @@ var markers_temp = [];
 var map;
 var edit_link = "12";
 var tempIW = null;
+var current_shopId;
 // lấy thông tin khi click vào marker
 function getContent(data) {
     return '<div class="info-box-wrap row">     ' +
@@ -21,7 +22,7 @@ function getContent(data) {
         '                   <br><i class="fa fa-map-marker"></i>' +
         '                   <strong>' + data.full_address + '</strong><br></div>' +
                             (edit_link != "" ? '<div class="row">' +
-                            '<a data-toggle="modal" data-target="#modal-edit" class="pull-right" id="edit-shop" onclick="getInfoUpdate('+data.id+')" data="'+ data.id + '"><i class="fa fa-pencil-square-o"></i></a></div>' : '') + '</div>    </div>';
+                            '<a data-toggle="modal" data-target="#modal-edit" class="pull-right" id="edit-shop" onclick="getInfoUpdate('+data.id+')" data-id="'+ data.id + '"><i class="fa fa-pencil-square-o"></i></a></div>' : '') + '</div>    </div>';
 }
 
 //lấy thông tin khi click vào chỉnh sửa
@@ -43,6 +44,7 @@ function getInfoUpdate(shop_id) {
             $("select[name=level]").val(data[0].cap_do_1480213548_id);
             $("select[name=quymo]").val(data[0].quy_mo1480440358_id);
             $("input[name=status]").prop('checked', data[0].status);
+            $("select[name=tiemnang]").val(data[0].tiem_nang1480213595_id);
         },
 
     });
@@ -110,6 +112,11 @@ function initMap() {
         });
     });
 
+    $('#modal-edit').on('show.bs.modal', function(e) {
+        current_shopId = $(e.relatedTarget).data('id');
+
+    });
+
 }
 
 function getFilterType($typeId) {
@@ -134,6 +141,24 @@ function getFilterType($typeId) {
 
         });
         markers.push(marker);
+        (function(marker, i) {
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow = new google.maps.InfoWindow({
+                    content: getContent(marker.data)
+                });
+                if(tempIW)
+                    tempIW.close();
+                infowindow.open(map, marker);
+                tempIW = infowindow;
+                google.maps.event.addListener(infowindow, 'domready', function() {
+                    $("#view-more").on("click", function() {
+                        view_more($(this).attr("data"));
+                    });
+
+                });
+            });
+
+        })(marker, i);
     }
     markerCluster.addMarkers(markers);
 }
@@ -187,6 +212,38 @@ function getListWard() {
             }
             $('#ward').selectpicker('refresh');
         }
+    });
+
+}
+
+function editMarker() {
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        type: "POST",
+        data : {
+            id :current_shopId,
+            full_address: $("input[name=full_address]").val(),
+            shop_name: $("input[name=shop_name]").val(),
+            namer : $("input[name=namer]").val(),
+            phone: $("input[name=phone]").val(),
+            cap_do_1480213548_id: $("select[name=level]").val(),
+            quy_mo1480440358_id: $("select[name=quymo]").val(),
+            tiem_nang1480213595_id: $("select[name=tiemnang]").val(),
+            status : $("input[name=status]").prop('checked'),
+        } ,
+        url: '/doEdit',
+        success: function(data) {
+            if (data == 1) {
+                alert("Cập nhật thành công");
+            }
+            else {
+                alert("Có lỗi xảy ra!");
+            }
+
+        },
+
     });
 }
 

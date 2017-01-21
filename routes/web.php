@@ -18,3 +18,5 @@ Route::get('/getdistrict', 'HomeController@getDistrictList');
 Route::get('/getward', 'HomeController@getWardList');
 Route::post('/login', 'HomeController@doLogin');
 Route::get('/logout', 'HomeController@doLogout');
+Route::post('/doEdit', 'HomeController@doEditMarker');
+Route::get('/editMarker', 'HomeController@editMarkerUI');

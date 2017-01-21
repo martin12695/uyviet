@@ -1,20 +1,6 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Uy Việt</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/home.css">
-    <link rel="stylesheet" href="/css/bootstrap-select.css">
-    <script src="/js/jquery-3.1.1.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="/js/bootstrap-select.js"></script>
-    <style type="text/css">
-        .style1 {background-color:#ffffff;font-weight:bold;border:2px #006699 solid;}
-    </style>
-</head>
+@extends('layouts.master')
 <body>
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <nav class="navbar navbar-default" >
@@ -96,8 +82,8 @@
                 <a href="#"><i class="fa fa-industry fa-lg"></i> Tiềm năng <span class="arrow"></span></a>
             </li>
             <ul class="sub-menu collapse" id="new">
-                @foreach($tiemnang as $tiemnang)
-                    <li class="active"><a href="#">{{$tiemnang->type}}</a></li>
+                @foreach($tiemnang as $tiemnang_item)
+                    <li class="active"><a href="#">{{$tiemnang_item->type}}</a></li>
                 @endforeach
             </ul>
             <li data-toggle="collapse" data-target="#quymo" class="collapsed">
@@ -185,12 +171,22 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="controller-label col-sm-2 text-right">Tiềm năng</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" name="tiemnang">
+                                    @foreach($tiemnang as $tiemnang_item)
+                                        <option value="{{$tiemnang_item->id}}">{{$tiemnang_item->type}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-primary" onclick="editMarker()">Save</button>
             </div>
         </div>
     </div>
@@ -211,6 +207,4 @@
         </div>
     </div>
 </div>
-<script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAo3ykqb8xloOHX36rgPXSd1zBQilLqy98&callback=initMap"></script>
 </body>

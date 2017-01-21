@@ -108,4 +108,33 @@ class HomeController
         session()->flush();
         return Redirect::to('/');
     }
+
+    public function doEditMarker(Request $request) {
+        $info = $request->input();
+        try {
+
+            DB::table('shop')
+                ->where('id', $info['id'])
+                ->update(['shop_name' => $info['shop_name'],
+                        'full_address' => $info['full_address'],
+                        'namer' => $info['namer'],
+                        'phone' => $info['phone'],
+                ]);
+
+            DB::table('shop_select_condition')
+                ->where('shop_id', $info['id'])
+                ->update(['quy_mo1480440358_id' => $info['quy_mo1480440358_id'],
+                        'cap_do_1480213548_id' => $info['cap_do_1480213548_id'],
+                        'tiem_nang1480213595_id' => $info['tiem_nang1480213595_id'],
+                ]);
+            return \Response::json(1);
+        }catch(\Exception $e){
+            return \Response::json(0);
+        }
+
+    }
+
+    public function editMarkerUI(){
+        return view('editMarker');
+    }
 }
