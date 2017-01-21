@@ -247,3 +247,7 @@ function editMarker() {
     });
 }
 
+function editMarkerPosition() {
+    window.location.href = '/editMarker/'+ current_shopId;
+}
+

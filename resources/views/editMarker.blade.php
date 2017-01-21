@@ -5,22 +5,18 @@
 <div id="map" class="col-md-9"></div>
 <script>
     function initMap() {
-        var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
+        var marker_info = '{{$marker->location}}';
+        var latLong = new google.maps.LatLng(parseFloat(marker_info.split(',')[0]), parseFloat(marker_info.split(',')[1]));
         var mapOptions = {
-            zoom: 4,
-            center: myLatlng
+            zoom: 14,
+            center: latLong
         }
         var map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-// Place a draggable marker on the map
         var marker = new google.maps.Marker({
-            position: myLatlng,
+            position: latLong ,
             map: map,
             draggable:true,
-            title:"Drag me!"
         });
-
-
     }
 </script>
 

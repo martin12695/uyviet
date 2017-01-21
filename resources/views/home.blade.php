@@ -186,6 +186,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-info" onclick="editMarkerPosition()">Chỉnh marker</button>
                 <button type="button" class="btn btn-primary" onclick="editMarker()">Save</button>
             </div>
         </div>

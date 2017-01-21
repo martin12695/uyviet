@@ -134,7 +134,9 @@ class HomeController
 
     }
 
-    public function editMarkerUI(){
-        return view('editMarker');
+    public function editMarkerUI($shopid){
+        $info = DB::select('select id, location from shop where id = ?',[$shopid]);
+        $marker = $info[0];
+        return view('editMarker', ['marker' => $marker]);
     }
 }
