@@ -1,12 +1,12 @@
 /**
  * Created by Martin on 16/01/2017.
  */
-var markers,markerCluster, marker;
-var markers_temp = [];
+var markerCluster, marker;
+var markers_temp, markers = [];
 var map;
 var edit_link = "12";
-var tempIW = null;
-var current_shopId;
+var tempIW = '';
+var current_shopId, latLong;
 // lấy thông tin khi click vào marker
 function getContent(data) {
     return '<div class="info-box-wrap row">     ' +
@@ -51,14 +51,22 @@ function getInfoUpdate(shop_id) {
 }
  //tạo map, tạo marker
 function initMap() {
+    latLong = new google.maps.LatLng(parseFloat(updatePosition.split(',')[0]), parseFloat(updatePosition.split(',')[1]));
     map = new google.maps.Map(document.getElementById('map'), {
         zoom: 6,
-        center: {lat: 16.625665, lng: 106.981011}
+        center: latLong
     });
 
     markerCluster = new MarkerClusterer(map, markers,
         {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
-
+    if (window.location.pathname != '/') {
+        marker = new google.maps.Marker({
+            position: latLong,
+            map: map,
+        });
+        markers.push(marker);
+        markerCluster.addMarkers(markers);
+    }
     $("#search").click(function (){
         markerCluster.clearMarkers();
         markers = [];

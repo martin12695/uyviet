@@ -33,7 +33,9 @@ class HomeController
             'levels' => $levels,
             'tiemnang' =>$tiemnang,
             'quymo' => $quymo,
+
         ]);
+
     }
 
 
@@ -139,4 +141,33 @@ class HomeController
         $marker = $info[0];
         return view('editMarker', ['marker' => $marker]);
     }
+
+    public function updateMarker(Request $request){
+        $info = $request->input();
+        try {
+
+            DB::table('shop')
+                ->where('id', $info['shopId'])
+                ->update(['location' => $info['position']]);
+
+            return \Response::json(0);
+        }catch(\Exception $e){
+            return \Response::json(1);
+        }
+
+    }
+
+    public function initPageWithMarker($shopid) {
+        $initPage = $this->initPage()->getData();
+        $init_location = DB::select('select shop.*, icon_url from shop, shop_type where (type_id = shop_type.id) and shop.id = ?',[$shopid]);
+        return view('home', [
+            'shopType' => $initPage['shopType'],
+            'listProvince' => $initPage['listProvince'],
+            'levels' => $initPage['levels'],
+            'tiemnang' =>$initPage['tiemnang'],
+            'quymo' => $initPage['quymo'],
+            'init_location'=> $init_location[0],
+        ]);
+    }
+
 }

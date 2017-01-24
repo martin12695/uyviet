@@ -19,4 +19,6 @@ Route::get('/getward', 'HomeController@getWardList');
 Route::post('/login', 'HomeController@doLogin');
 Route::get('/logout', 'HomeController@doLogout');
 Route::post('/doEdit', 'HomeController@doEditMarker');
+Route::post('/updatemarker', 'HomeController@updateMarker');
 Route::get('/editMarker/{shopid}', 'HomeController@editMarkerUI')->where(['shopid' => '[0-9]+']);
+Route::get('/{shopid}', 'HomeController@initPageWithMarker')->where(['shopid' => '[0-9]+']);
