@@ -170,4 +170,11 @@ class HomeController
         ]);
     }
 
+    public function getRelateLocation (Request $request) {
+        $shopId = $request->input('shopId');
+        $detailRelate = DB::select('select * from shop where shop.id = ?',[$shopId]);
+        $relateLocation = DB::select('select shop.*, icon_url from shop, shop_type where (type_id = shop_type.id) and shop.province_id= ? and shop.district_id= ?',[$detailRelate[0]->province_id,$detailRelate[0]->district_id]);
+        return \Response::json($relateLocation);
+    }
+
 }

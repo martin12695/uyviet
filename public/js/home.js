@@ -53,19 +53,17 @@ function getInfoUpdate(shop_id) {
 function initMap() {
     latLong = new google.maps.LatLng(parseFloat(updatePosition.split(',')[0]), parseFloat(updatePosition.split(',')[1]));
     map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 6,
+        zoom: 18,
         center: latLong
     });
 
     markerCluster = new MarkerClusterer(map, markers,
         {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+
     if (window.location.pathname != '/') {
-        marker = new google.maps.Marker({
-            position: latLong,
-            map: map,
-        });
-        markers.push(marker);
+        getRelateLocation();
         markerCluster.addMarkers(markers);
+
     }
     $("#search").click(function (){
         markerCluster.clearMarkers();
@@ -116,6 +114,8 @@ function initMap() {
 
                 }
                 markerCluster.addMarkers(markers);
+                map.setCenter(new google.maps.LatLng(parseFloat(markers_temp[0].location.split(',')[0]), parseFloat(markers_temp[0].location.split(',')[1])));
+                map.setZoom(10);
             },
         });
     });
@@ -259,3 +259,51 @@ function editMarkerPosition() {
     window.location.href = '/editMarker/'+ current_shopId;
 }
 
+function getRelateLocation() {
+    $.ajax({
+        method: "get",
+        url: '/getRelate',
+        data: {
+            shopId: updateShopId
+        },
+        success: function (data) {
+            markers_temp = data;
+            for (var i = 0; i < markers_temp.length; i++) {
+                // init markers
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(parseFloat(markers_temp[i].location.split(',')[0]), parseFloat(markers_temp[i].location.split(',')[1])),
+                    map: map,
+                    title: markers_temp[i].shop_name,
+                    data : markers_temp[i],
+                    icon: {
+                        url: markers_temp[i].icon_url,
+                        size: new google.maps.Size(50, 50),
+                    },
+
+                });
+                markers.push(marker);
+                (function(marker, i) {
+                    google.maps.event.addListener(marker, 'click', function() {
+                        infowindow = new google.maps.InfoWindow({
+                            content: getContent(marker.data)
+                        });
+                        if(tempIW)
+                            tempIW.close();
+                        infowindow.open(map, marker);
+                        tempIW = infowindow;
+                        google.maps.event.addListener(infowindow, 'domready', function() {
+                            $("#view-more").on("click", function() {
+                                view_more($(this).attr("data"));
+                            });
+
+                        });
+                    });
+
+                })(marker, i);
+
+            }
+            markerCluster.addMarkers(markers);
+        }
+    });
+
+}

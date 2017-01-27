@@ -97,7 +97,7 @@
 </ul>
 </div>
 </div>
-
+<button type="button" onclick="getRelateLocation()">getRelate</button>
 <div id="map" class="col-md-9"></div>
 <script>
 var userId = {{session('userId')}};
@@ -105,6 +105,7 @@ var userId = {{session('userId')}};
 @if (!empty($init_location))
     <script>
         var updatePosition = '{{$init_location->location}}';
+        var updateShopId = {{$init_location->id}};
     </script>
 @else
     <script>
