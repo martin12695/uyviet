@@ -1,5 +1,3 @@
-<!DOCTYPE html>
-<html>
 @extends('layouts.master')
 <body>
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -58,24 +56,17 @@
                     </span>
                 </div>
             </li>
-            <li  data-toggle="collapse" data-target="#products" class="collapsed active">
+            <li  data-toggle="collapse" data-target="#check-list-box" class="collapsed active">
                 <a href="#"><i class="fa fa-gift fa-lg"></i> Danh mục cửa hàng <span class="arrow"></span></a>
             </li>
-            <div class="well" style="max-height: 300px;overflow: auto;">
-                <ul id="check-list-box" class="list-group checked-list-box">
-                    <li class="list-group-item">Cras justo odio</li>
-                    <li class="list-group-item" data-color="success">Dapibus ac facilisis in</li>
-                    <li class="list-group-item" data-color="info">Morbi leo risus</li>
-                    <li class="list-group-item" data-color="warning">Porta ac consectetur ac</li>
-                    <li class="list-group-item" data-color="danger">Vestibulum at eros</li>
+                <ul id="check-list-box" class="list-group checked-list-box sub-menu collapse">
+                    @foreach($shopType as $type)
+                        <li class="list-group-item" value="{{$type->id}}">{{$type->type}}</li>
+                    @endforeach
+                        <li><button class="btn btn-primary col-xs-12" id="get-checked-data">Get Checked Data</button></li>
                 </ul>
-                <br />
-                <button class="btn btn-primary col-xs-12" id="get-checked-data">Get Checked Data</button>
-            </div>
             <ul class="sub-menu collapse" id="products">
-                @foreach($shopType as $type)
-                <li class="active"><a href="#" onclick="getFilterType({{$type->id}});">{{$type->type}}</a></li>
-                @endforeach
+
             </ul>
 
 
@@ -108,11 +99,9 @@
 </ul>
 </div>
 </div>
-<button type="button" onclick="getRelateLocation()">getRelate</button>
 <div id="map" class="col-md-9"></div>
 <script>
 var userId = {{session('userId')}};
-
 </script>
 @if (!empty($init_location))
     <script>
@@ -219,16 +208,17 @@ var userId = {{session('userId')}};
 
 <!-- SIGNIN MODAL -->
 <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-<div class="modal-dialog">
-<div class="loginmodal-container">
-<h1>Đăng nhập</h1><br>
-<form method="post" action="/login">
-<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-<input type="text" name="user" placeholder="Username">
-<input type="password" name="pass" placeholder="Password">
-<input type="submit" name="login" class="login loginmodal-submit" value="Login">
-</form>
-</div>
-</div>
+    <div class="modal-dialog">
+        <div class="loginmodal-container">
+        <h1>Đăng nhập</h1><br>
+            <form method="post" action="/login">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+            <input type="text" name="user" placeholder="Username">
+            <input type="password" name="pass" placeholder="Password">
+            <input type="submit" name="login" class="login loginmodal-submit" value="Login">
+            </form>
+        </div>
+    </div>
 </div>
 </body>
+</html>
