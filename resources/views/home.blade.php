@@ -63,7 +63,6 @@
                     @foreach($shopType as $type)
                         <li class="list-group-item" value="{{$type->id}}">{{$type->type}}</li>
                     @endforeach
-                        <li><button class="btn btn-primary col-xs-12" id="get-checked-data">Get Checked Data</button></li>
                 </ul>
             <ul class="sub-menu collapse" id="products">
 
