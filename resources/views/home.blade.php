@@ -61,6 +61,17 @@
             <li  data-toggle="collapse" data-target="#products" class="collapsed active">
                 <a href="#"><i class="fa fa-gift fa-lg"></i> Danh mục cửa hàng <span class="arrow"></span></a>
             </li>
+            <div class="well" style="max-height: 300px;overflow: auto;">
+                <ul id="check-list-box" class="list-group checked-list-box">
+                    <li class="list-group-item">Cras justo odio</li>
+                    <li class="list-group-item" data-color="success">Dapibus ac facilisis in</li>
+                    <li class="list-group-item" data-color="info">Morbi leo risus</li>
+                    <li class="list-group-item" data-color="warning">Porta ac consectetur ac</li>
+                    <li class="list-group-item" data-color="danger">Vestibulum at eros</li>
+                </ul>
+                <br />
+                <button class="btn btn-primary col-xs-12" id="get-checked-data">Get Checked Data</button>
+            </div>
             <ul class="sub-menu collapse" id="products">
                 @foreach($shopType as $type)
                 <li class="active"><a href="#" onclick="getFilterType({{$type->id}});">{{$type->type}}</a></li>
@@ -101,6 +112,7 @@
 <div id="map" class="col-md-9"></div>
 <script>
 var userId = {{session('userId')}};
+
 </script>
 @if (!empty($init_location))
     <script>
