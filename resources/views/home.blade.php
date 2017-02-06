@@ -99,9 +99,11 @@
 </div>
 </div>
 <div id="map" class="col-md-9"></div>
+@if(session()->has('userId'))
 <script>
 var userId = {{session('userId')}};
 </script>
+@endif
 @if (!empty($init_location))
     <script>
         var updatePosition = '{{$init_location->location}}';
@@ -210,11 +212,11 @@ var userId = {{session('userId')}};
     <div class="modal-dialog">
         <div class="loginmodal-container">
         <h1>Đăng nhập</h1><br>
-            <form method="post" action="/login">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-            <input type="text" name="user" placeholder="Username">
-            <input type="password" name="pass" placeholder="Password">
-            <input type="submit" name="login" class="login loginmodal-submit" value="Login">
+            <form >
+            <input type="text" name="userLog" placeholder="Username" required>
+            <input type="password" name="passLog" placeholder="Password" required>
+            <input type="button" name="login" class="login loginmodal-submit" value="Login" onclick="doLogin()">
+                <p name="loginFail" style="color:red" class="alert-warning" hidden>Tên đăng nhập hoặc mật khẩu không đúng !</p>
             </form>
         </div>
     </div>

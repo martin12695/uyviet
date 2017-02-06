@@ -263,4 +263,27 @@ function getRelateLocation() {
 
 }
 
+function doLogin() {
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        method: "post",
+        url: '/login',
+        data: {
+            user : $("input[name=userLog]").val(),
+            pass: $("input[name=passLog]").val(),
+
+        },
+        success: function (data) {
+            if ( data == 0 ) {
+                location.reload();
+            }
+            else {
+                $("p[name=loginFail]").show();
+            }
+        }
+    });
+}
+
 

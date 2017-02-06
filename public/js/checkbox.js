@@ -86,17 +86,18 @@ $(function() {
                 if (value == markers_temp[i].type_id) {
                     markerFilter.push(markers_temp[i]);
                     return false;
+
                 }
             });
         }
         for (var i = 0; i < markerFilter.length; i++) {
             marker = new google.maps.Marker({
-                position: new google.maps.LatLng(parseFloat(markers_temp[i].location.split(',')[0]), parseFloat(markers_temp[i].location.split(',')[1])),
+                position: new google.maps.LatLng(parseFloat(markerFilter[i].location.split(',')[0]), parseFloat(markerFilter[i].location.split(',')[1])),
                 map: map,
-                title: markers_temp[i].shop_name,
-                data: markers_temp[i],
+                title: markerFilter[i].shop_name,
+                data: markerFilter[i],
                 icon: {
-                    url: markers_temp[i].icon_url,
+                    url: markerFilter[i].icon_url,
                     size: new google.maps.Size(50, 50),
                 },
 

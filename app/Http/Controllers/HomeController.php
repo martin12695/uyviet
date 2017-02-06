@@ -80,29 +80,20 @@ class HomeController
     }
 
 
-    public function doLogin() {
-        session()->flush();
-        $rules = array(
-            'user'    => 'required|alphaNum|min:3', // make sure the email is an actual email
-            'pass' => 'required|alphaNum|min:3' // password can only be alphanumeric and has to be greater than 3 characters
-        );
-        $validator = Validator::make(Input::all(), $rules);
-        if ($validator->fails()) {
-            return Redirect::to('/cd')
-                ->withErrors($validator) // send back all errors to the login form
-                ->withInput(Input::except('pass')); // send back the input (not the password) so that we can repopulate the form
-        } else {
-            $passMd5 = md5(Input::get('pass'));;
-            $login = DB::select('select id, fullname from user where username = ? and password = ? limit 1',[Input::get('user'),$passMd5]);
-            if (!empty($login)) {
-                session(['userId' => $login[0]->id,
-                        'fullname' => $login[0]->fullname
-                ]);
-                return Redirect::to('/');
-            }
-            else {
-                return Redirect::to('/');
-            }
+    public function doLogin(Request $request)
+    {
+        $info = $request->input();
+        $passMd5 = md5($info['pass']);;
+        $login = DB::select('select id, fullname from user where username = ? and password = ? limit 1', [$info['user'], $passMd5]);
+        if (!empty($login)) {
+            session(['userId' => $login[0]->id,
+                'fullname' => $login[0]->fullname
+            ]);
+            return \Response::json(0);
+
+        }
+        else {
+            return \Response::json(1);
         }
     }
 
