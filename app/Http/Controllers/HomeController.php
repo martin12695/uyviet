@@ -42,16 +42,16 @@ class HomeController
     public function findItem(Request $request) {
         $filter = $request->input();
         if ($filter['districtId'] =='' || $filter['districtId'] == 0 ){
-            $location = DB::select('select shop.*, icon_url from shop, shop_type where (type_id = shop_type.id) and(user_id = ?) and (shop.province_id = ?)',[$filter['userId'],$filter['provinceId']]);
+            $location = DB::select('select shop.*, icon_url, shop_select_condition.* from shop, shop_type, shop_select_condition where (type_id = shop_type.id) and(user_id = ?) and (shop.id = shop_select_condition.shop_id) and (shop.province_id = ?)',[$filter['userId'],$filter['provinceId']]);
         }
         else{
             if ($filter['wardId'] == '' || $filter['wardId'] == 0) {
-                $location = DB::select('select shop.*, icon_url from shop, shop_type where (type_id = shop_type.id) and(user_id = ?) 
+                $location = DB::select('select shop.*, icon_url, shop_select_condition.* from shop, shop_type, shop_select_condition where (type_id = shop_type.id) and(user_id = ?) and (shop.id = shop_select_condition.shop_id)
                                     and (shop.province_id = ?) and (shop.district_id = ?)',
                                     [$filter['userId'], $filter['provinceId'], $filter['districtId']]);
             }
             else {
-                $location = DB::select('select shop.*, icon_url from shop, shop_type where (type_id = shop_type.id) and(user_id = ?) 
+                $location = DB::select('select shop.*, icon_url, shop_select_condition.* from shop, shop_type, shop_select_condition where (type_id = shop_type.id) and(user_id = ?) and (shop.id = shop_select_condition.shop_id)
                                     and (shop.province_id = ?) and (shop.district_id = ?) and (shop.ward_id = ?) ',
                                     [$filter['userId'], $filter['provinceId'], $filter['districtId'], $filter['wardId']]);
             }

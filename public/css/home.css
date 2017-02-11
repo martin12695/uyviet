@@ -6,7 +6,7 @@
     background-color: #2e353d;
     position: fixed;
     top: 0px;
-    height: 100%;
+    height: 50%;
     color: #e1ffff;
 }
 .nav-side-menu .brand {
@@ -164,7 +164,7 @@ body {
 
 
 #map {
-    height: 500px;
+    height: 100%;
 
 }
 

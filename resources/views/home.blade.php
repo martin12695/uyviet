@@ -64,40 +64,39 @@
                         <li class="list-group-item" value="{{$type->id}}">{{$type->type}}</li>
                     @endforeach
                 </ul>
-            <ul class="sub-menu collapse" id="products">
-
-            </ul>
-
-
-            <li data-toggle="collapse" data-target="#service" class="collapsed">
+            <li data-toggle="collapse" data-target="#check-list-box-level" class="collapsed">
                 <a href="#"><i class="fa fa-industry fa-lg"></i> Cấp độ <span class="arrow"></span></a>
             </li>
-            <ul class="sub-menu collapse" id="service">
+            <ul id="check-list-box-level" class="list-group checked-list-box sub-menu collapse">
                 @foreach($levels as $level)
-                    <li class="active"><a href="#">{{$level->type}}</a></li>
+                    <li class="list-group-item" value="{{$level->id}}">{{$level->type}}</li>
                 @endforeach
+            </ul>
+            <ul class="sub-menu collapse" id="service">
+
             </ul>
 
 
-            <li data-toggle="collapse" data-target="#new" class="collapsed">
+            <li data-toggle="collapse" data-target="#check-list-box-tiemnang" class="collapsed">
                 <a href="#"><i class="fa fa-industry fa-lg"></i> Tiềm năng <span class="arrow"></span></a>
             </li>
-            <ul class="sub-menu collapse" id="new">
+            <ul class="sub-menu collapse list-group checked-list-box" id="check-list-box-tiemnang">
                 @foreach($tiemnang as $tiemnang_item)
-                    <li class="active"><a href="#">{{$tiemnang_item->type}}</a></li>
+                    <li class="list-group-item" value="{{$tiemnang_item->type}}">{{$tiemnang_item->type}}</li>
                 @endforeach
             </ul>
-            <li data-toggle="collapse" data-target="#quymo" class="collapsed">
+            <li data-toggle="collapse" data-target="#check-list-box-quymo" class="collapsed">
                 <a href="#"><i class="fa fa-industry fa-lg"></i> Quy Mô <span class="arrow"></span></a>
             </li>
-            <ul class="sub-menu collapse" id="quymo">
+            <ul class="sub-menu collapse list-group checked-list-box" id="check-list-box-quymo">
                 @foreach($quymo as $quymo_item)
-                    <li class="active"><a href="#">{{$quymo_item->type}}</a></li>
+                    <li class="list-group-item" value="{{$quymo_item->type}}">{{$quymo_item->type}}</li>
                 @endforeach
-</ul>
-</ul>
+            </ul>
+        </ul>
+    </div>
 </div>
-</div>
+<button type="button" id="test">test</button>
 <div id="map" class="col-md-9"></div>
 @if(session()->has('userId'))
 <script>

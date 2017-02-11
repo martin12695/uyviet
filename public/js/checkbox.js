@@ -32,6 +32,10 @@ $(function() {
             updateDisplay();
         });
 
+        $("#search").click(function () {
+            $checkbox.prop('checked', true);
+            updateDisplay();
+        });
 
         // Actions
         function updateDisplay() {
@@ -124,4 +128,114 @@ $(function() {
         }
         markerCluster.addMarkers(markers);
     });
+
+    $('#check-list-box-level li').on('click', function(event) {
+        event.preventDefault();
+        checkedItems = [], counter = 0;
+        $("#check-list-box-level li.active").each(function(idx, li) {
+            checkedItems[counter] = $(this).attr('value');
+            counter++;
+        });
+        console.log(checkedItems);
+        markerCluster.clearMarkers();
+        markers = [];
+        var markerFilter = [];
+        for (var i = 0; i < markers_temp.length; i++) {
+            $.each(checkedItems, function( index, value ) {
+                if (value == markers_temp[i].cap_do_1480213548_id) {
+                    markerFilter.push(markers_temp[i]);
+                    return false;
+
+                }
+            });
+        }
+        for (var i = 0; i < markerFilter.length; i++) {
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(parseFloat(markerFilter[i].location.split(',')[0]), parseFloat(markerFilter[i].location.split(',')[1])),
+                map: map,
+                title: markerFilter[i].shop_name,
+                data: markerFilter[i],
+                icon: {
+                    url: markerFilter[i].icon_url,
+                    size: new google.maps.Size(50, 50),
+                },
+
+            });
+            markers.push(marker);
+            (function(marker, i) {
+                google.maps.event.addListener(marker, 'click', function() {
+                    infowindow = new google.maps.InfoWindow({
+                        content: getContent(marker.data)
+                    });
+                    if(tempIW)
+                        tempIW.close();
+                    infowindow.open(map, marker);
+                    tempIW = infowindow;
+                    google.maps.event.addListener(infowindow, 'domready', function() {
+                        $("#view-more").on("click", function() {
+                            view_more($(this).attr("data"));
+                        });
+
+                    });
+                });
+
+            })(marker, i);
+        }
+        markerCluster.addMarkers(markers);
+    });
+
+    $('#check-list-box-quymo li').on('click', function(event) {
+        event.preventDefault();
+        checkedItems = [], counter = 0;
+        $("#check-list-box-level li.active").each(function(idx, li) {
+            checkedItems[counter] = $(this).attr('value');
+            counter++;
+        });
+        console.log(checkedItems);
+        markerCluster.clearMarkers();
+        markers = [];
+        var markerFilter = [];
+        for (var i = 0; i < markers_temp.length; i++) {
+            $.each(checkedItems, function( index, value ) {
+                if (value == markers_temp[i].cap_do_1480213548_id) {
+                    markerFilter.push(markers_temp[i]);
+                    return false;
+
+                }
+            });
+        }
+        for (var i = 0; i < markerFilter.length; i++) {
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(parseFloat(markerFilter[i].location.split(',')[0]), parseFloat(markerFilter[i].location.split(',')[1])),
+                map: map,
+                title: markerFilter[i].shop_name,
+                data: markerFilter[i],
+                icon: {
+                    url: markerFilter[i].icon_url,
+                    size: new google.maps.Size(50, 50),
+                },
+
+            });
+            markers.push(marker);
+            (function(marker, i) {
+                google.maps.event.addListener(marker, 'click', function() {
+                    infowindow = new google.maps.InfoWindow({
+                        content: getContent(marker.data)
+                    });
+                    if(tempIW)
+                        tempIW.close();
+                    infowindow.open(map, marker);
+                    tempIW = infowindow;
+                    google.maps.event.addListener(infowindow, 'domready', function() {
+                        $("#view-more").on("click", function() {
+                            view_more($(this).attr("data"));
+                        });
+
+                    });
+                });
+
+            })(marker, i);
+        }
+        markerCluster.addMarkers(markers);
+    })
 });
